@@ -1,10 +1,14 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const { argv } = require('process');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const deps = require('./package.json').dependencies;
-module.exports = {
+module.exports = (_, argv) => ({
   output: {
-    publicPath: 'http://localhost:3001/',
+    publicPath:
+      argv.mode === 'development'
+        ? 'http://localhost:3001/'
+        : 'https://micro-app-test.vercel.app/',
   },
 
   resolve: {
@@ -63,4 +67,4 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
-};
+});
